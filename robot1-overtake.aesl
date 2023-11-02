@@ -1,0 +1,63 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--node T1 on Predator-Bruna - 23776-->
+<node nodeId="{2393fca1-5d9e-4a5f-b659-4acce09c954f}" name="T1 on Predator-Bruna - 23776"><![CDATA[# reset outputs
+var speed
+var left_turn
+var right_turn
+var aux
+
+
+call sound.system(-1)
+call leds.top(0,0,0)
+call leds.bottom.left(0,0,0)
+call leds.bottom.right(0,0,0)
+call leds.circle(0,0,0,0,0,0,0,0)
+
+
+call prox.comm.enable(1)
+
+speed = 150
+left_turn = 50
+right_turn = 50
+
+#ande reto
+onevent prox
+if  prox.horizontal[2] < 1000  and prox.horizontal[3] < 1000  and prox.horizontal[4] < 1000 then
+	motor.left.target = 0
+	motor.right.target = 0
+	motor.left.target = speed
+	motor.right.target = speed
+end
+
+#vai pra cima
+if prox.horizontal[2] >= 2000 then
+motor.left.target = speed
+motor.right.target = speed + right_turn
+end
+
+#vai menos pra cima
+if prox.horizontal[2] < 1000 and prox.horizontal[3] >= 3000 then
+motor.left.target = speed + 30
+motor.right.target = speed+ right_turn
+end
+
+#vai pra baixo
+if prox.horizontal[2] < 1000 and prox.horizontal[3] < 1000 and prox.horizontal[4] >= 3000 then
+motor.left.target = speed + left_turn
+motor.right.target = speed
+end
+
+if prox.horizontal[6] >= 3000 then
+motor.left.target = speed 
+motor.right.target = speed + 20
+end
+]]></node>
+
+
+</network>
